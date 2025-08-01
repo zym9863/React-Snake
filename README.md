@@ -1,5 +1,7 @@
 # React 贪吃蛇（Snake Game）
 
+**中文** | **[English](README_EN.md)**
+
 一个使用 React + TypeScript + Vite 构建的贪吃蛇小游戏。使用 pnpm 作为包管理器。
 
 ## 快速开始
