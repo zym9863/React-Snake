@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Coord } from '../types';
+import type { Coord, Direction } from '../types';
 
 interface GameBoardProps {
   rows: number;
@@ -7,9 +7,25 @@ interface GameBoardProps {
   snake: Coord[];
   food: Coord;
   isGameOver: boolean;
+  direction: Direction;
 }
 
-const GameBoard: React.FC<GameBoardProps> = ({ rows, cols, snake, food, isGameOver }) => {
+const GameBoard: React.FC<GameBoardProps> = ({ rows, cols, snake, food, isGameOver, direction }) => {
+  const getDirectionClass = (direction: Direction): string => {
+    switch (direction) {
+      case 'UP':
+        return 'direction-up';
+      case 'DOWN':
+        return 'direction-down';
+      case 'LEFT':
+        return 'direction-left';
+      case 'RIGHT':
+        return 'direction-right';
+      default:
+        return 'direction-right';
+    }
+  };
+
   const getCellType = (x: number, y: number): 'empty' | 'snake-head' | 'snake-body' | 'food' => {
     if (snake.length > 0 && snake[0].x === x && snake[0].y === y) {
       return 'snake-head';
@@ -54,10 +70,13 @@ const GameBoard: React.FC<GameBoardProps> = ({ rows, cols, snake, food, isGameOv
       {Array.from({ length: rows }, (_, y) =>
         Array.from({ length: cols }, (_, x) => {
           const cellType = getCellType(x, y);
+          const isSnakeHead = cellType === 'snake-head';
+          const directionClass = isSnakeHead ? getDirectionClass(direction) : '';
+          
           return (
             <div
               key={`${x}-${y}`}
-              className={`cell ${cellType}`}
+              className={`cell ${cellType} ${directionClass}`.trim()}
               aria-label={getCellAriaLabel(x, y)}
             />
           );

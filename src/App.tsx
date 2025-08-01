@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useSnakeGame } from './game/useSnakeGame';
 import GameBoard from './components/GameBoard';
 import ControlPanel from './components/ControlPanel';
+import AnimatedBackground from './components/AnimatedBackground';
 import './App.css';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
 
   return (
     <div className="app" tabIndex={0}>
+      <AnimatedBackground />
       <header className="app-header">
         <h1>React 贪吃蛇</h1>
         {state.isGameOver && (
@@ -37,6 +39,7 @@ function App() {
             snake={state.snake}
             food={state.food}
             isGameOver={state.isGameOver}
+            direction={state.direction}
           />
         </div>
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Speed } from '../types';
+import AnimatedScore from './AnimatedScore';
 
 interface ControlPanelProps {
   score: number;
@@ -50,7 +51,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
       <div className="score-section">
         <div className="score-item">
           <span className="score-label">当前分数:</span>
-          <span className="score-value" aria-live="polite">{score}</span>
+          <AnimatedScore currentScore={score} />
         </div>
         <div className="score-item">
           <span className="score-label">最高分数:</span>
