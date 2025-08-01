@@ -31,8 +31,8 @@ const AnimatedBackground: React.FC = () => {
       type: 'triangle' | 'circle' | 'square';
 
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        this.x = Math.random() * (canvas?.width || window.innerWidth);
+        this.y = Math.random() * (canvas?.height || window.innerHeight);
         this.size = Math.random() * 40 + 10;
         this.opacity = Math.random() * 0.1 + 0.02;
         this.rotationSpeed = (Math.random() - 0.5) * 0.02;
@@ -48,10 +48,10 @@ const AnimatedBackground: React.FC = () => {
         this.rotation += this.rotationSpeed;
 
         // 边界处理
-        if (this.x < -this.size) this.x = canvas.width + this.size;
-        if (this.x > canvas.width + this.size) this.x = -this.size;
-        if (this.y < -this.size) this.y = canvas.height + this.size;
-        if (this.y > canvas.height + this.size) this.y = -this.size;
+        if (this.x < -this.size) this.x = (canvas?.width || window.innerWidth) + this.size;
+        if (this.x > (canvas?.width || window.innerWidth) + this.size) this.x = -this.size;
+        if (this.y < -this.size) this.y = (canvas?.height || window.innerHeight) + this.size;
+        if (this.y > (canvas?.height || window.innerHeight) + this.size) this.y = -this.size;
       }
 
       draw(ctx: CanvasRenderingContext2D) {
