@@ -86,6 +86,7 @@ export function useSnakeGame(initialConfig?: Partial<GameConfig>) {
   const config = { ...INITIAL_CONFIG, ...initialConfig };
   const intervalRef = useRef<number | null>(null);
   
+  const [speed, setSpeedState] = useState<Speed>(config.speed);
   const [state, setState] = useState<GameState>(() => ({
     snake: INITIAL_SNAKE,
     food: getRandomFood(INITIAL_SNAKE, config.rows, config.cols),
@@ -161,7 +162,7 @@ export function useSnakeGame(initialConfig?: Partial<GameConfig>) {
 
   useEffect(() => {
     if (state.isRunning && !state.isGameOver) {
-      intervalRef.current = setInterval(moveSnake, SPEED_MAP[config.speed]) as unknown as number;
+      intervalRef.current = setInterval(moveSnake, SPEED_MAP[speed]) as unknown as number;
     } else if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
@@ -172,7 +173,7 @@ export function useSnakeGame(initialConfig?: Partial<GameConfig>) {
         clearInterval(intervalRef.current);
       }
     };
-  }, [state.isRunning, state.isGameOver, moveSnake, config.speed]);
+  }, [state.isRunning, state.isGameOver, moveSnake, speed]);
 
   const start = useCallback(() => {
     setState(prevState => ({
@@ -200,8 +201,8 @@ export function useSnakeGame(initialConfig?: Partial<GameConfig>) {
     });
   }, [config.rows, config.cols]);
 
-  const setSpeed = useCallback((speed: Speed) => {
-    config.speed = speed;
+  const setSpeed = useCallback((newSpeed: Speed) => {
+    setSpeedState(newSpeed);
   }, []);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
@@ -257,7 +258,7 @@ export function useSnakeGame(initialConfig?: Partial<GameConfig>) {
 
   return {
     state,
-    config,
+    config: { ...config, speed },
     start,
     pause,
     reset,
